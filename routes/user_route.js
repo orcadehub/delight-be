@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
 
     const { password: _, ...userData } = user; // Exclude password
 
-    const token = jwt.sign({ userId: user._id }, yourSuperSecretKey, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d", // optional: token expiration
     });
 

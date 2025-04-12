@@ -5,26 +5,27 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 
-const PORT = process.env.PORT;
+const PORT = 3300;
 
 const allowedOrigins = [
   "http://localhost:5173", // ✅ Allow local development
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // ✅ Allow credentials (cookies, tokens)
-    optionsSuccessStatus: 200,
-  })
-);
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true, // ✅ Allow credentials (cookies, tokens)
+//     optionsSuccessStatus: 200,
+//   })
+// );
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

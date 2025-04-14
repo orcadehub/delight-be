@@ -30,13 +30,12 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
 
 mongoose.connect(
-  "mongodb+srv://orcadehub2:orcadehub2@orcadehub.twfptkz.mongodb.net/orcadehub?retryWrites=true&w=majority&appName=OrcadeHub",
+  "mongodb+srv://orcadehub2:orcadehub2@orcadehub.twfptkz.mongodb.net/90sdelight?retryWrites=true&w=majority&appName=OrcadeHub",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

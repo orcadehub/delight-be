@@ -4,10 +4,7 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 
-
 const PORT = process.env.PORT;
-
-
 
 const allowedOrigins = [
   "http://localhost:3000", // ✅ Allow local development
@@ -35,11 +32,7 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
 
 mongoose.connect(
-  "mongodb+srv://orcadehub2:orcadehub2@orcadehub.twfptkz.mongodb.net/90sdelight?retryWrites=true&w=majority&appName=OrcadeHub",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+  "mongodb+srv://orcadehub2:orcadehub2@orcadehub.twfptkz.mongodb.net/90sdelight?retryWrites=true&w=majority&appName=OrcadeHub"
 );
 
 const db = mongoose.connection;

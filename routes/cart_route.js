@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Cart = mongoose.model("Cart");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/AuthMiddleware");
 
 // Add item to cart (protected)
 router.post("/cart/add", authMiddleware, async (req, res) => {

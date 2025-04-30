@@ -118,15 +118,31 @@ app.post('/status', async (req, res) => {
   try {
     const { orderId } = req.body;
 
+    if (!orderId) {
+      return res.status(400).json({ error: "Order ID is required" });
+    }
+
     const response = await client.getOrderStatus(orderId);
     console.log(response)
-    const state = response.state;
+    if (!response || !response.success) {
+      return res.status(400).json({ status: "failed", message: "Unable to fetch order status" });
+    }
 
-    res.json({ status: state });
+    const state = response.data?.state;
+
+    if (state === "COMPLETED") {
+      return res.json({ status: "success", message: "Payment completed successfully" });
+    } else if (state === "PENDING") {
+      return res.json({ status: "pending", message: "Payment is still in process" });
+    } else {
+      return res.json({ status: "failed", message: "Payment failed or was cancelled" });
+    }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error checking payment status:", err);
+    res.status(500).json({ status: "error", message: err.message || "Payment status check failed" });
   }
 });
+
 
 // Start Server
 app.listen(PORT, () => {

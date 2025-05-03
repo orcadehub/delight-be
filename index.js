@@ -95,41 +95,36 @@ app.post("/pay", async (req, res) => {
     }
 
     const merchantOrderId = randomUUID();
-    const redirectUrl = "http://localhost:5173/success"; // Success URL
-    const failureUrl = "http://localhost:5173/checkout"; // Failure URL
 
-    // Creating the request for payment
+    // Create the payment request with redirect URLs (still required by PhonePe API)
     const request = StandardCheckoutPayRequest.builder()
       .merchantOrderId(merchantOrderId)
       .amount(amount)
-      .redirectUrl(redirectUrl)
-      .failureUrl(failureUrl)  // Redirect in case of failure
+      .redirectUrl("http://localhost:5173/success")  // still sent to PhonePe, not frontend
+      .failureUrl("http://localhost:5173/checkout")
       .build();
 
-    // Sending the payment request
+    // Send payment request to PhonePe
     const response = await client.pay(request);
     console.log(response);
 
-    // Checking the response status to determine if the payment is successful or failed
+    // Respond based on payment status
     if (response.status === 'SUCCESS') {
-      // If payment is successful, send a success status with the checkout URL
       res.json({
         paymentStatus: 'success',
-        checkoutUrl: response.redirectUrl,
-        orderId: merchantOrderId
+        orderId: merchantOrderId,
       });
     } else {
-      // If payment fails, send failure status with the failure URL
       res.json({
         paymentStatus: 'failure',
-        failureUrl: failureUrl
+        orderId: merchantOrderId,
       });
     }
   } catch (err) {
-    // Handle errors and send an error response
     res.status(500).json({ error: err.message || "Payment processing failed" });
   }
 });
+
 
 
 
